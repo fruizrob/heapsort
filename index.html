@@ -51,9 +51,8 @@
         <hr>
         <div class="row">
             <div class="col-md-12">
-                <h2>Heapsort - O(n log n)</h2>
                 <div class="container-run">
-                    <h3>Gráfica de Resultados</h3>
+                    <h2>Heapsort - O(n log n)</h2>
                     <div class="container-input">
                         <input placeholder="50" id="input-size" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                         <button style="margin-left: 5px" id="button-run" type="button" class="btn btn-outline-success button-run">Run!</button>
@@ -70,7 +69,7 @@
             <h4>Domingo Pinto</h4>
             <h4>Felipe Ruiz</h4>
         </div>
-        <a class="sourcecode" href="https://github.com/fruizrob/heapsort">Codigo fuente</a>
+        <a class="sourcecode" href="https://github.com/fruizrob/heapsort">Código Fuente</a>
     </div>
     <script>
         let data = []
@@ -131,10 +130,41 @@
             chart: {
                 type: 'line'
             },
+            legend: {
+                position: 'top'
+            },
             series: data,
-            xaxis: {
+            xaxis:{
                 categories: arrayOfN,
-            }
+                title: {
+                    text: 'Cantidad de Datos'
+                }
+            },
+            shadow: {
+                enabled: true,
+                color: '#000',
+                top: 18,
+                left: 7,
+                blur: 10,
+                opacity: 1
+            },
+            title: {
+                text: 'Gráfica de Resultados',
+                align: 'left'
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            yaxis: {
+                title: {
+                    text: 'Cantidad de Comparaciones'
+                },
+            },
+    
         }
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
@@ -158,11 +188,11 @@
             
             let i = 1;
             while(i < 1000){
-                i += size;
                 createArray(i);
                 arrayOfN.push(i);
                 arrayOfComparations.push(count)
                 arrayOfEstimate.push(parseInt(i * Math.log2(i)))
+                i += size;
             }
 
             data.push({
@@ -171,23 +201,45 @@
             })
 
             data.push({
-                name: 'N',
-                data: arrayOfN,
+                name: 'Estimate',
+                data: arrayOfEstimate,
             })
 
             data.push({
-                name: 'Estimate',
-                data: arrayOfEstimate,
+                name: 'N',
+                data: arrayOfN,
             })
 
             var options = {
                 chart: {
                     type: 'line'
                 },
+                legend: {
+                    position: 'top'
+                },
                 series: data,
                 xaxis: {
                     categories: arrayOfN,
-                }
+                },
+                shadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 1
+                },
+                title: {
+                    text: 'Gráfica de Resultados',
+                    align: 'left'
+                },
+                grid: {
+                    borderColor: '#e7e7e7',
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
             }
 
             chart.updateOptions(options)
