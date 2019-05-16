@@ -22,7 +22,18 @@
                 <div class="container-run">
                     <h2>Heapsort - O(n log n)</h2>
                     <div class="container-input">
-                        <input placeholder="50" id="input-size" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        <div style="margin-right: 5px; width: auto" class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Max-Size</span>
+                            </div>
+                            <input style="width: 80px" placeholder="1000" id="input-maxsize" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                        <div style="margin-left: 5px; width: auto" class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Interval</span>
+                            </div>
+                            <input style="width: 80px"  placeholder="50" id="input-interval" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
                         <button style="margin-left: 5px" id="button-run" type="button" class="btn btn-outline-success button-run">Run!</button>
                     </div>
                 </div>

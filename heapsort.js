@@ -2,7 +2,7 @@ let data = [];
 let arrayOfComparations = [];
 let arrayOfN = [];
 let arrayOfEstimate = [];
-let count = 0;
+let count;
 
 const heapSort = array => {
   count = 0;
@@ -28,13 +28,19 @@ const heapify = (array, i, heapSize) => {
   let left = i * 2 + 1;
   let right = i * 2 + 2;
 
-  if (left < heapSize && array[i] < array[left]) {
+  
+  if (left < heapSize) {
     count++;
-    max = left;
+    if(array[i] < array[left]){
+      max = left;
+    }
+    
   }
-  if (right < heapSize && array[max] < array[right]) {
+  if(right < heapSize){
     count++;
-    max = right;
+    if(array[max] < array[right]){
+      max = right;
+    }
   }
 
   if (i != max) {
@@ -101,20 +107,17 @@ document.getElementById("button-run").addEventListener("click", ev => {
   arrayOfComparations = [];
   arrayOfEstimate = [];
 
-  let size;
-  if (document.getElementById("input-size").value) {
-    size = parseInt(document.getElementById("input-size").value);
-  } else {
-    size = 50;
-  }
+  (document.getElementById("input-interval").value) ? interval = parseInt(document.getElementById("input-interval").value) : interval = 50;
+  (document.getElementById("input-maxsize").value) ? maxSize = parseInt(document.getElementById("input-maxsize").value) : maxSize = 1000;
+  console.log([maxSize, interval])
 
   let i = 1;
-  while (i < 1000) {
+  while (i < maxSize) {
     createArray(i);
     arrayOfN.push(i);
     arrayOfComparations.push(count);
     arrayOfEstimate.push(parseInt(i * Math.log2(i)));
-    i += size;
+    i += interval;
   }
 
   data.push({
