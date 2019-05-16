@@ -1,4 +1,5 @@
 let data = [];
+let arrayOfN2 = [];
 let arrayOfComparations = [];
 let arrayOfN = [];
 let arrayOfEstimate = [];
@@ -93,7 +94,9 @@ var options = {
   yaxis: {
     title: {
       text: "Cantidad de Comparaciones"
-    }
+    },
+    min: 1,
+    max: 50000
   }
 };
 
@@ -103,6 +106,7 @@ chart.render();
 
 document.getElementById("button-run").addEventListener("click", ev => {
   data = [];
+  arrayOfN2 = [];
   arrayOfN = [];
   arrayOfComparations = [];
   arrayOfEstimate = [];
@@ -114,11 +118,17 @@ document.getElementById("button-run").addEventListener("click", ev => {
   let i = 1;
   while (i < maxSize) {
     createArray(i);
+    arrayOfN2.push(Math.pow(i,2));
     arrayOfN.push(i);
     arrayOfComparations.push(count);
     arrayOfEstimate.push(parseInt(i * Math.log2(i)));
     i += interval;
   }
+
+  data.push({
+    name: "N^2",
+    data: arrayOfN2,
+  })
 
   data.push({
     name: "Real",
