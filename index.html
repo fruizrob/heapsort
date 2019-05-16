@@ -5,16 +5,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-
-    <link rel="stylesheet" href="./libs/morris.css">
-    <script src="./libs/morris.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Heapsort</title>
     <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+        body {
+            font-family: Roboto, sans-serif;
+        }
+
+        #chart {
+            max-width: 80%;
+            margin: 35px auto;
+        }
+
         .authors {
             display: grid;
             justify-content: center;
@@ -24,8 +31,16 @@
         .integrantes {
             margin: 10px;
         }
+        .container-run {
+            display: flex;
+            justify-content: space-between;
+        }
         .sourcecode {
             margin: 20px;
+        }
+        .container-input {
+            display: flex;
+            height: 100%;
         }
     </style>
 </head>
@@ -37,9 +52,15 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Heapsort - O(n log n)</h2>
-                <h3>Gráfica de Resultados</h3>
+                <div class="container-run">
+                    <h3>Gráfica de Resultados</h3>
+                    <div class="container-input">
+                        <input placeholder="50" id="input-size" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        <button style="margin-left: 5px" id="button-run" type="button" class="btn btn-outline-success button-run">Run!</button>
+                    </div>
+                </div>
                 <hr>
-                <div id="Grafica_Comparaciones"></div>
+                <div id="chart"></div>
             </div>
         </div>
     </div>
@@ -51,7 +72,130 @@
         </div>
         <a class="sourcecode" href="https://github.com/fruizrob/heapsort">Codigo fuente</a>
     </div>
-    <script src="bundle.js" charset="utf-8"></script>
+    <script>
+        let data = []
+        let arrayOfComparations = []
+        let arrayOfN = []
+        let arrayOfEstimate = []
+        let count = 0;
+
+        const heapSort = (array) => {
+            count = 0;
+            let heapSize = array.length;
+            array = buildHeap(array);
+            for(let i = heapSize-1; i > 0; i--){
+                [array[i], array[0]] = [array[0], array[i]]
+                heapify(array, 0, i);
+            }
+            return array
+        }
+
+        const buildHeap = (array) => {
+            for(let i = Math.floor((array.length / 2)-1); i >= 0; i--){
+                heapify(array, i, array.length);
+            }
+            return array;
+        }
+
+        const heapify = (array, i, heapSize) => {
+            let max = i;
+
+            let left = (i*2)+1;
+            let right = (i*2)+2;
+
+            if(left < heapSize && array[i] < array[left]){
+                count++;
+                max = left
+            }
+            if(right < heapSize && array[max] < array[right]){
+                count++;
+                max = right
+            }
+
+            if(i != max){
+                [array[max], array[i]] = [array[i], array[max]];
+                heapify(array, max, heapSize)
+            }
+        }
+
+        const createArray = (n) => {
+            let array = [];
+            for(let i = 0; i < n; i++){
+                array.push(parseInt(Math.random() * 1000));
+            }
+            heapSort(array)
+            
+        }
+
+        var options = {
+            chart: {
+                type: 'line'
+            },
+            series: data,
+            xaxis: {
+                categories: arrayOfN,
+            }
+        }
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+        chart.render();
+
+        document.getElementById('button-run').addEventListener('click', (ev) => {
+            data = [];
+            arrayOfN = [];
+            arrayOfComparations = [];
+            arrayOfEstimate = [];
+
+            let size;
+            if(document.getElementById('input-size').value){
+                size = parseInt(document.getElementById('input-size').value)
+
+            } else {
+                size = 50;
+            }
+            
+            
+            let i = 1;
+            while(i < 1000){
+                i += size;
+                createArray(i);
+                arrayOfN.push(i);
+                arrayOfComparations.push(count)
+                arrayOfEstimate.push(parseInt(i * Math.log2(i)))
+            }
+
+            data.push({
+                name: 'Real',
+                data: arrayOfComparations,
+            })
+
+            data.push({
+                name: 'N',
+                data: arrayOfN,
+            })
+
+            data.push({
+                name: 'Estimate',
+                data: arrayOfEstimate,
+            })
+
+            var options = {
+                chart: {
+                    type: 'line'
+                },
+                series: data,
+                xaxis: {
+                    categories: arrayOfN,
+                }
+            }
+
+            chart.updateOptions(options)
+        })
+
+
+
+    </script>
 </body>
 
 </html>
