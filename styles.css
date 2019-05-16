@@ -1,0 +1,31 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+body {
+    font-family: Roboto, sans-serif;
+}
+
+#chart {
+    max-width: 80%;
+    margin: 35px auto;
+}
+
+.authors {
+    display: grid;
+    justify-content: center;
+    margin-top: 20px;
+    text-align: center;
+}
+.integrantes {
+    margin: 10px;
+}
+.container-run {
+    display: flex;
+    justify-content: space-between;
+}
+.sourcecode {
+    margin: 20px;
+}
+.container-input {
+    display: flex;
+    height: 100%;
+}
